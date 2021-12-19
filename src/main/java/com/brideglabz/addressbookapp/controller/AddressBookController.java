@@ -2,6 +2,9 @@ package com.brideglabz.addressbookapp.controller;
 
 import com.brideglabz.addressbookapp.model.Contact;
 import com.brideglabz.addressbookapp.service.IAddressBookService;
+
+import java.util.List;
+
 import com.brideglabz.addressbookapp.dto.ContactDTO;
 import com.brideglabz.addressbookapp.dto.ResponseDTO;
 
@@ -25,20 +28,16 @@ public class AddressBookController {
 
     @RequestMapping(value = {"", "/", "/get"})
     public ResponseEntity<ResponseDTO> getContactData() {
-
-        Contact contact = new Contact(1,
-                new ContactDTO("Anant  ", "Sinde", "Hadpsar", "Pune", "Maharashtra", "412307", "7620839838"));
-        ResponseDTO response = new ResponseDTO("Get call success", contact);
+        List<Contact> contactList = addressbookservice.getContact();
+        ResponseDTO response = new ResponseDTO("Get call success", contactList);
         return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
     }
-
     /**
      * Purpose : Ability to fetch all contact details in AddressBook
      */
     @GetMapping("/getContactDetails")
     public ResponseEntity<ResponseDTO> getContactData(@PathVariable("contactId") int contactId) {
-        Contact contact = new Contact(1,
-                new ContactDTO("Aditya", "Shinde", "Latur", "Latur", "Maharashtra", "431123", "99999999"));
+        Contact contact = addressbookservice.getContactById(contactId);
         ResponseDTO response = new ResponseDTO("Get call success for id", contact);
         return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
 
@@ -50,11 +49,12 @@ public class AddressBookController {
 
     @PostMapping("/addContactDetails")
     public ResponseEntity<ResponseDTO> addContactData(@RequestBody ContactDTO contactDTO) {
-        Contact contact = new Contact(1, contactDTO);
+        Contact contact = addressbookservice.createContact(contactDTO);
         ResponseDTO response = new ResponseDTO("Created contact data for", contact);
         return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
 
     }
+
 
     /**
      * Purpose : Ability to update contact details in AddressBook
@@ -73,6 +73,7 @@ public class AddressBookController {
      */
     @DeleteMapping("/deleteContactDetails")
     public ResponseEntity<ResponseDTO> deleteContactData(@PathVariable("contactId") int contactId) {
+        addressbookservice.deleteContact(contactId);
         ResponseDTO response = new ResponseDTO("Delete call success for id ", "deleted id:" + contactId);
         return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
 
