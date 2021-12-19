@@ -20,18 +20,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-    @RestController
+
+@RestController
 @RequestMapping("/addressbookservice")
 public class AddressBookController {
     @Autowired
     private IAddressBookService addressbookservice;
 
-    @RequestMapping(value = {"", "/", "/get"})
+    @RequestMapping(value = { "", "/", "/get" })
     public ResponseEntity<ResponseDTO> getContactData() {
         List<Contact> contactList = addressbookservice.getContact();
         ResponseDTO response = new ResponseDTO("Get call success", contactList);
         return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
     }
+
     /**
      * Purpose : Ability to fetch all contact details in AddressBook
      */
@@ -55,14 +57,13 @@ public class AddressBookController {
 
     }
 
-
     /**
      * Purpose : Ability to update contact details in AddressBook
      */
     @PutMapping("/updateContactDetails")
     public ResponseEntity<ResponseDTO> updateContactData(@PathVariable("contactId") int contactId,
-            @RequestBody ContactDTO contactDTO) {
-        Contact contact = new Contact(1, contactDTO);
+             @RequestBody ContactDTO contactDTO) {
+        Contact contact = addressbookservice.updateContact(contactId, contactDTO);
         ResponseDTO response = new ResponseDTO("Updated contact data for", contact);
         return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
 
@@ -79,4 +80,3 @@ public class AddressBookController {
 
     }
 }
-
