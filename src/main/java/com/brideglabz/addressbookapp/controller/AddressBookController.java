@@ -1,9 +1,11 @@
 package com.brideglabz.addressbookapp.controller;
 
 import com.brideglabz.addressbookapp.model.Contact;
+import com.brideglabz.addressbookapp.service.IAddressBookService;
 import com.brideglabz.addressbookapp.dto.ContactDTO;
 import com.brideglabz.addressbookapp.dto.ResponseDTO;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
     @RestController
 @RequestMapping("/addressbookservice")
 public class AddressBookController {
+    @Autowired
+    private IAddressBookService addressbookservice;
+
     @RequestMapping(value = {"", "/", "/get"})
     public ResponseEntity<ResponseDTO> getContactData() {
 
