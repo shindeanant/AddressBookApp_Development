@@ -1,6 +1,8 @@
 package com.brideglabz.addressbookapp.dto;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
+
 public class ContactDTO {
     @Pattern(regexp = "^[A-Z]{1,}[a-zA-z\\s]{2,}$")
     public String firstName;
