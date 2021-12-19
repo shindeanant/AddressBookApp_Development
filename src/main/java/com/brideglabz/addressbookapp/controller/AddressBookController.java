@@ -4,7 +4,7 @@ import com.brideglabz.addressbookapp.model.Contact;
 import com.brideglabz.addressbookapp.service.IAddressBookService;
 
 import java.util.List;
-
+import javax.validation.Valid;
 import com.brideglabz.addressbookapp.dto.ContactDTO;
 import com.brideglabz.addressbookapp.dto.ResponseDTO;
 
@@ -62,7 +62,7 @@ public class AddressBookController {
      */
     @PutMapping("/updateContactDetails")
     public ResponseEntity<ResponseDTO> updateContactData(@PathVariable("contactId") int contactId,
-             @RequestBody ContactDTO contactDTO) {
+            @Valid @RequestBody ContactDTO contactDTO) {
         Contact contact = addressbookservice.updateContact(contactId, contactDTO);
         ResponseDTO response = new ResponseDTO("Updated contact data for", contact);
         return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
